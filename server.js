@@ -16,7 +16,7 @@ app.get('/usuarios', async (req, res) => {
 })
 
 app.post('/usuarios', async (req, res) => {
-
+    try {
     const user = await prisma.user.create({
         data: {
             email: req.body.email,
@@ -24,8 +24,14 @@ app.post('/usuarios', async (req, res) => {
             name: req.body.name
         }
     })
+        
+        res.status(201).json(user)
+        
+    } catch(err) {
+        res.status(500).json({erro: err.message})
+}
+    
 
-    res.status(201).json(user)
 })
 
 app.put('/usuarios/:id', async (req, res) => {
